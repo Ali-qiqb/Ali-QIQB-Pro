@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alᴉ | 𝒬𝐼𝒬𝐵 Pro - Offensive Arsenal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff0000;
+            --neon-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+            --dark-bg: #020202;
+            --card-bg: #0a0a0a;
+            --gold: #d4af37;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
+        body { background-color: var(--dark-bg); color: #ccc; overflow-x: hidden; line-height: 1.6; }
+
+        #matrix-bg { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.15; pointer-events: none; }
+
+        .ticker { background: #000; color: #0f0; border-bottom: 1px solid #1a0000; padding: 5px; font-size: 0.75rem; overflow: hidden; white-space: nowrap; z-index: 2001; position: relative; }
+        .ticker-wrap { display: inline-block; animation: tick 40s linear infinite; }
+        @keyframes tick { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+
+        header { position: sticky; top: 0; z-index: 2000; border-bottom: 2px solid var(--primary); box-shadow: var(--neon-shadow); }
+        .top-bar { background: rgba(0,0,0,0.95); padding: 15px 5%; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 15px; }
+        
+        .logo-box { display: flex; align-items: center; gap: 12px; }
+        .q-logo { font-size: 2.5rem; color: var(--primary); text-shadow: var(--neon-shadow); font-family: 'Georgia', serif; }
+        .brand-text h1 { font-size: 1.4rem; color: #fff; letter-spacing: 1px; }
+        .brand-text h1 span { color: var(--primary); font-family: 'Georgia', serif; font-style: italic; }
+
+        .search-box { flex-grow: 1; display: flex; max-width: 400px; min-width: 200px; }
+        .search-box input { width: 100%; padding: 10px; border: 1px solid #222; background: #000; color: #fff; border-radius: 0 4px 4px 0; outline: none; }
+        .search-box button { background: var(--primary); border: none; padding: 0 15px; border-radius: 4px 0 0 4px; color: #fff; cursor: pointer; }
+
+        .cat-bar { background: #050505; padding: 10px 5%; display: flex; gap: 20px; overflow-x: auto; border-bottom: 1px solid #111; }
+        .cat-bar::-webkit-scrollbar { display: none; }
+        .cat-item { color: #666; text-decoration: none; font-size: 0.8rem; white-space: nowrap; transition: 0.3s; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .cat-item:hover, .cat-item.active { color: var(--primary); text-shadow: 0 0 5px var(--primary); }
+
+        .hero { height: 300px; background: linear-gradient(rgba(0,0,0,0.8), var(--dark-bg)), url('https://i.postimg.cc/kGr6ch8w/1776984656555.png') center/cover; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-bottom: 1px solid #1a0000; padding: 20px; }
+        .hero h2 { font-size: 2.5rem; color: #fff; text-shadow: var(--neon-shadow); margin-bottom: 10px; }
+        .hero p { color: var(--gold); font-size: 1rem; letter-spacing: 2px; }
+
+        .container { padding: 40px 5%; max-width: 1400px; margin: 0 auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+
+        .card { background: var(--card-bg); border: 1px solid #1a1a1a; border-radius: 4px; overflow: hidden; transition: 0.4s; position: relative; display: flex; flex-direction: column; }
+        .card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: var(--neon-shadow); }
+        
+        .card-header { background: #0d0000; padding: 10px 15px; border-bottom: 1px solid #220000; display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: #555; }
+        .threat-level { color: var(--primary); border: 1px solid var(--primary); padding: 2px 6px; font-weight: bold; }
+
+        .card-body { padding: 25px; flex-grow: 1; }
+        .card-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; text-align: center; opacity: 0.8; }
+        .card h3 { color: #fff; font-size: 1.2rem; margin-bottom: 10px; border-right: 3px solid var(--primary); padding-right: 10px; }
+        .version { color: #0f0; font-size: 0.65rem; display: block; margin-bottom: 15px; font-family: monospace; }
+        .price { font-size: 1.4rem; color: var(--gold); font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+
+        .btn-action { display: block; text-align: center; text-decoration: none; padding: 12px; font-weight: bold; transition: 0.3s; border: none; cursor: pointer; width: 100%; }
+        .btn-preview { background: #111; color: #888; font-size: 0.8rem; border-top: 1px solid #1a1a1a; }
+        .btn-preview:hover { color: #fff; background: #1a1a1a; }
+        .btn-buy { background: var(--primary); color: #fff; clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%); }
+        .btn-buy:hover { filter: brightness(1.2); box-shadow: 0 0 15px var(--primary); }
+
+        .emergency { background: #050000; border: 1px dashed var(--primary); padding: 40px; margin-top: 60px; text-align: center; border-radius: 10px; }
+        .sos-btn { background: transparent; color: var(--primary); border: 2px solid var(--primary); padding: 15px 40px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: 0.3s; margin-top: 20px; }
+        .sos-btn:hover { background: var(--primary); color: #fff; box-shadow: var(--neon-shadow); }
+
+        footer { background: #000; border-top: 2px solid var(--primary); padding: 60px 5% 20px; margin-top: 80px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; text-align: right; }
+        .footer-col h4 { color: var(--primary); margin-bottom: 20px; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: #888; text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+        .footer-links a:hover { color: var(--primary); padding-right: 5px; }
+
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; z-index: 5000; padding: 20px; }
+        .modal-content { background: #0a0a0a; max-width: 700px; margin: 40px auto; padding: 35px; border: 1px solid var(--primary); border-radius: 8px; position: relative; box-shadow: var(--neon-shadow); }
+        .close-btn { position: absolute; left: 20px; top: 20px; color: var(--primary); cursor: pointer; font-size: 1.8rem; }
+
+        @media (max-width: 768px) {
+            .hero h2 { font-size: 1.8rem; }
+            .top-bar { justify-content: center; }
+            .search-box { order: 3; width: 100%; }
+        }
+
+        .wa-float { position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 32px; z-index: 1000; box-shadow: 0 0 20px rgba(0,0,0,0.5); transition: 0.3s; }
+        .wa-float:hover { transform: scale(1.1) rotate(10deg); }
+    </style>
+</head>
+<body>
+
+    <div class="ticker">
+        <div class="ticker-wrap">
+            [SYSTEM_ACTIVE] Alᴉ | 𝒬𝐼𝒬𝐵_PRO_CONNECTED... [OWNER] ALI_THE_ARCHITECT... [STATUS] OFFENSIVE_MODE_READY... [UPDATE] ALL_TOOLS_FUD_BY_QIQB... [NOTICE] CRYPTO_ONLY_SESSION...
+        </div>
+    </div>
+
+    <canvas id="matrix-bg"></canvas>
+
+    <header>
+        <div class="top-bar">
+            <div class="logo-box">
+                <div class="q-logo">𝒬</div>
+                <div class="brand-text">
+                    <h1>Alᴉ | <span>𝒬𝐼𝒬𝐵 Pro</span></h1>
+                    <small>The Architect of Security & Offensive Systems</small>
+                </div>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search Arsenal...">
+                <button onclick="searchTools()"><i class="fas fa-search"></i></button>
+            </div>
+
+            <div class="user-nav">
+                <a href="#" style="color:#fff; text-decoration:none;"><i class="fas fa-fingerprint"></i> <span style="font-size:0.7rem">Root Access</span></a>
+            </div>
+        </div>
+
+        <div class="cat-bar">
+            <div class="cat-item active" onclick="filter('all')"><i class="fas fa-terminal"></i> الكل</div>
+            <div class="cat-item" onclick="filter('security')"><i class="fas fa-user-secret"></i> أدوات هجومية</div>
+            <div class="cat-item" onclick="filter('whatsapp')"><i class="fab fa-whatsapp"></i> واتساب برو</div>
+            <div class="cat-item" onclick="filter('custom')"><i class="fas fa-biohazard"></i> برمجيات محظورة</div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h2>OFFENSIVE ARSENAL</h2>
+        <p>[ Alᴉ | 𝒬𝐼𝒬𝐵 PRO - PRIVATE REPOSITORY ]</p>
+    </section>
+
+    <main class="container">
+        <div class="grid" id="toolsGrid">
+            <div class="card" data-cat="security">
+                <div class="card-header">
+                    <span>ID: Q-7737</span>
+                    <span class="threat-level">CRITICAL</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-icon"><i class="fas fa-radiation"></i></div>
+                    <h3>Q-Azrail Builder</h3>
+                    <span class="version">Build: v12.0 [PRO-STABLE]</span>
+                    <p style="font-size: 0.8rem; color: #777;">محرك تشفير متطور مصمم لتجاوز أقوى أنظمة الحماية الدولية بأسلوب الـ Architect.</p>
+                    <div class="price"><i class="fab fa-bitcoin"></i> 0.0045 BTC</div>
+                    <a href="https://wa.me/967737596595" class="btn-action btn-buy">GET ACCESS</a>
+                </div>
+                <button class="btn-action btn-preview" onclick="openModal('Q-Azrail Builder', 'تم تطوير هذا المحرك بواسطة علي قيقب لتخطي فحص Windows Defender و Kaspersky السحابي. يتضمن ميزات الحقن الصامت وتغيير الهوية الرقمية للملف بشكل كامل.')">تقرير المطور</button>
+            </div>
+
+            <div class="card" data-cat="whatsapp">
+                <div class="card-header">
+                    <span>ID: Q-9942</span>
+                    <span class="threat-level" style="color:var(--gold); border-color:var(--gold);">ADVANCED</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-icon"><i class="fas fa-bug"></i></div>
+                    <h3>Q-Saboteur</h3>
+                    <span class="version">Build: v4.2 [PRO-FUD]</span>
+                    <p style="font-size: 0.8rem; color: #777;">بوت أتمتة متقدم بميزات هجومية لتخطي قيود واتساب وإدارة الحملات الضخمة.</p>
+                    <div class="price"><i class="fab fa-bitcoin"></i> 0.0018 BTC</div>
+                    <a href="https://wa.me/967737596595" class="btn-action btn-buy">GET ACCESS</a>
+                </div>
+                <button class="btn-action btn-preview" onclick="openModal('Q-Saboteur', 'بروتوكول خاص يحاكي السلوك البشري بدقة عالية، مما يضمن استمرارية العمل دون تعرض الحسابات للحظر. تطوير خاص وحصري.')">تقرير المطور</button>
+            </div>
+        </div>
+
+        <div class="emergency">
+            <h3 style="color:var(--primary);"><i class="fas fa-exclamation-triangle"></i> DIRECT LINE TO THE ARCHITECT</h3>
+            <p style="font-size: 0.9rem; margin-top: 15px; color: #888;">للطلبات البرمجية الخاصة أو الاستشارات الأمنية العميقة، تواصل مع المالك مباشرة.</p>
+            <button class="sos-btn" onclick="window.location.href='https://wa.me/967737596595'">REQUEST CONSULTATION</button>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4><i class="fas fa-code"></i> المالك والمطور</h4>
+                <p style="font-size: 0.8rem; color: #555; line-height: 1.8;">
+                    منصة المهندس علي قيقب (The Architect). متخصصون في بناء الأدوات الهجومية والحلول البرمجية الخارجة عن المألوف. القوة، السرية، والاحترافية هي أساس عملنا.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h4><i class="fas fa-link"></i> روابط سريعة</h4>
+                <ul class="footer-links">
+                    <li><a href="javascript:void(0)" onclick="openStaticPage('about')"><i class="fas fa-user-tie"></i> حول المعماري</a></li>
+                    <li><a href="javascript:void(0)" onclick="openStaticPage('privacy')"><i class="fas fa-user-shield"></i> خصوصية العمليات</a></li>
+                    <li><a href="javascript:void(0)" onclick="openStaticPage('terms')"><i class="fas fa-file-contract"></i> شروط الخدمة</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4><i class="fas fa-satellite-dish"></i> تواصل مشفر</h4>
+                <p style="font-size: 0.8rem; color: #555; margin-bottom: 15px;">الخط المباشر مع علي قيقب للاستفسارات الجادة فقط.</p>
+                <div style="display: flex; gap: 10px;">
+                    <a href="https://wa.me/967737596595" style="color: #fff; font-size: 1.5rem;"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" style="color: #fff; font-size: 1.5rem;"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #111; font-size: 0.7rem; color: #222;">
+            © 2026 Alᴉ | 𝒬𝐼𝒬𝐵 Pro | Developed by Ali Qiqb | ALL RIGHTS RESERVED
+        </div>
+    </footer>
+
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="mTitle" style="color: var(--primary); margin-bottom: 20px; border-right: 4px solid var(--primary); padding-right: 15px;"></h2>
+            <div id="mText" style="color: #ccc; line-height: 1.8; font-size: 0.9rem;"></div>
+        </div>
+    </div>
+
+    <a href="https://wa.me/967737596595" class="wa-float"><i class="fab fa-whatsapp"></i></a>
+
+    <script>
+        const canvas = document.getElementById('matrix-bg');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const letters = "QIQB ALI PRO 7737";
+        const fontSize = 14;
+        const drops = Array(Math.floor(canvas.width/fontSize)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0,0,0,0.05)";
+            ctx.fillRect(0,0,canvas.width,canvas.height);
+            ctx.fillStyle = "#f00";
+            ctx.font = fontSize + "px monospace";
+            drops.forEach((y, i) => {
+                const text = letters[Math.floor(Math.random()*letters.length)];
+                ctx.fillText(text, i*fontSize, y*fontSize);
+                if(y*fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            });
+        }
+        setInterval(drawMatrix, 35);
+
+        const staticData = {
+            about: { title: "حول المالك", body: "علي قيقب، الملقب بـ 'The Architect'، مبرمج ومطور أنظمة متخصص في البرمجيات الهجومية والأمن السيبراني. نركز على تطوير أدوات تتجاوز القيود التقليدية وتوفر حلولاً برمجية قوية للمحترفين." },
+            privacy: { title: "خصوصية العمليات", body: "جميع التعاملات مشفرة بالكامل. لا نقوم بالاحتفاظ ببيانات العملاء أو تفاصيل العمليات. نحن نحترم السرية التامة كجزء أساسي من منظومة Alᴉ | 𝒬𝐼𝒬𝐵 Pro." },
+            terms: { title: "شروط الخدمة", body: "الأدوات المعروضة مخصصة للأغراض التعليمية واختبار الأنظمة الخاصة. المالك غير مسؤول عن أي سوء استخدام لهذه الأدوات في أعمال غير قانونية." }
+        };
+
+        function openModal(title, text) {
+            document.getElementById('mTitle').innerText = title;
+            document.getElementById('mText').innerText = text;
+            document.getElementById('infoModal').style.display = 'block';
+        }
+
+        function openStaticPage(pageKey) {
+            const data = staticData[pageKey];
+            openModal(data.title, data.body);
+        }
+
+        function closeModal() { document.getElementById('infoModal').style.display = 'none'; }
+
+        function filter(cat) {
+            document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            document.querySelectorAll('.card').forEach(card => {
+                card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'flex' : 'none';
+            });
+        }
+
+        function searchTools() {
+            let term = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('.card').forEach(card => {
+                let title = card.querySelector('h3').innerText.toLowerCase();
+                card.style.display = title.includes(term) ? 'flex' : 'none';
+            });
+        }
+
+        window.onclick = (e) => { if(e.target.className === 'modal') closeModal(); };
+        window.onresize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+    </script>
+</body>
+</html>
